@@ -16,6 +16,9 @@ DROP TABLE INVOICE CASCADE CONSTRAINTS;
 DROP TABLE QUALITY CASCADE CONSTRAINTS;
 DROP TABLE WAREHOUSE CASCADE CONSTRAINTS;
 DROP TABLE CUSTOMER_ORDER CASCADE CONSTRAINTS;
+DROP TABLE ROLE_ CASCADE CONSTRAINTS;
+DROP TABLE ADMINISTRATOR_INFO CASCADE CONSTRAINTS;
+
 CLEAR SCREEN;
 
 --Creating Table Customer
@@ -30,7 +33,7 @@ CREATE TABLE CUSTOMER (
 CREATE TABLE CATALOG (
   Product_ID VARCHAR(10) NOT NULL PRIMARY KEY,
   MODEL_ VARCHAR (20),
-  MODEL_DESCRIPTION VARCHAR(30),
+  MODEL_DESCRIPTION VARCHAR(80),
   Price FLOAT
 );
 
@@ -44,7 +47,7 @@ CREATE TABLE CATALOG (
 --Creating Table MODEL_DETAILS 
    CREATE TABLE MODEL_DETAILS(
    Product_ID VARCHAR(10) NOT NULL PRIMARY KEY,
-   MODEL_DESCRIPTION VARCHAR(30), 
+   MODEL_DESCRIPTION VARCHAR(60), 
    Date_Manufactured DATE,
    MODEL_ VARCHAR(20)
    );
@@ -72,7 +75,7 @@ CREATE TABLE MANUFACTURING (
   Airplane_Number VARCHAR  (10) NOT NULL PRIMARY KEY,
   Date_Manufactured DATE,
   MODEL_ VARCHAR (20),
-  Status VARCHAR (10)
+  Status VARCHAR (20)
 );
 
 --Creating Table Department
@@ -192,44 +195,59 @@ CREATE TABLE CUSTOMER_ORDER (
    DOB DATE,
    FOREIGN KEY (Department_ID) references DEPARTMENT(Department_ID)
    );
-
+   
+--Creating Table Role
+  CREATE TABLE ROLE_ (
+  Role_ID varchar(10)  NOT NULL PRIMARY KEY,
+  Role_Name varchar(30)
+);
+   
+   
+--Creating Table  Administrator_Info
+  CREATE TABLE ADMINISTRATOR_INFO (
+  Admin_ID VARCHAR(10)  NOT NULL PRIMARY KEY,
+  Role_ID VARCHAR(10),
+  Admin_Name VARCHAR(30),
+  Email_ID VARCHAR(30),
+  Password VARCHAR(30),
+  FOREIGN KEY (Role_ID) references ROLE_(Role_ID)
+);
 
 
 --Inserting Data in table Customer
-INSERT INTO CUSTOMER (Customer_ID,First_Name,Last_Name,Address,Phone) VALUES ('C10001','Marsden','Flynn','Ap #922-2226 Eu Rd.',1-776-423-8576);
-INSERT INTO CUSTOMER (Customer_ID,First_Name,Last_Name,Address,Phone) VALUES ('C10002','Uriel','Meyer','597-8319 Magna. Street',1-135-317-3205);
-INSERT INTO CUSTOMER (Customer_ID,First_Name,Last_Name,Address,Phone) VALUES ('C10003','Hayden','Shields','7978 Dui Street',1-879-150-3664);
-INSERT INTO CUSTOMER (Customer_ID,First_Name,Last_Name,Address,Phone) VALUES ('C10004','Anthony','Battle','9295 A, Street',1-403-181-0725);
-INSERT INTO CUSTOMER (Customer_ID,First_Name,Last_Name,Address,Phone) VALUES ('C10005','Drake','Espinoza','221-120 Ut Ave',1-205-199-2765);
+INSERT INTO CUSTOMER (Customer_ID,First_Name,Last_Name,Address,Phone) VALUES ('C10001','Laura','Meyer','600 Street Building A NY, USA',1-776-423-8576);
+INSERT INTO CUSTOMER (Customer_ID,First_Name,Last_Name,Address,Phone) VALUES ('C10002','Steve','Aoki','Magna Street 12 CA, USA',1-135-317-3205);
+INSERT INTO CUSTOMER (Customer_ID,First_Name,Last_Name,Address,Phone) VALUES ('C10003','Ram','Hariharan','79 Street OH, USA',1-879-150-3664);
+INSERT INTO CUSTOMER (Customer_ID,First_Name,Last_Name,Address,Phone) VALUES ('C10004','Jacky','Davis','Culver Drive 21 AZ, USA',1-403-181-0725);
+INSERT INTO CUSTOMER (Customer_ID,First_Name,Last_Name,Address,Phone) VALUES ('C10005','Drew','Barrymore','Park Ave CT21 CT, USA',1-205-199-2765);
 
 --Inserting Data in table Catalog
-INSERT INTO CATALOG (Product_ID,MODEL_, MODEL_DESCRIPTION,Price) VALUES ('PROD1','BOEING 747', 'HAWAI JAHAJ', 9000000);
-INSERT INTO CATALOG (Product_ID,MODEL_, MODEL_DESCRIPTION,Price) VALUES ('PROD2','AIRBUS A320', 'HAWAI JAHAJ', 615000);
-INSERT INTO CATALOG (Product_ID,MODEL_, MODEL_DESCRIPTION,Price) VALUES ('PROD3','BOEING 777', 'HAWAI JAHAJ', 5600000);
-INSERT INTO CATALOG (Product_ID,MODEL_, MODEL_DESCRIPTION,Price) VALUES ('PROD4','AIRBUS A330', 'HAWAI JAHAJ', 450000);
-INSERT INTO CATALOG (Product_ID,MODEL_, MODEL_DESCRIPTION,Price) VALUES ('PROD5','AIRBUS A380', 'HAWAI JAHAJ', 3500000);
-
+INSERT INTO CATALOG (Product_ID,MODEL_, MODEL_DESCRIPTION,Price) VALUES ('PROD1','BOEING 747', 'Engine:Four wing-mounted,Seating Capacity: 366', 9000000);
+INSERT INTO CATALOG (Product_ID,MODEL_, MODEL_DESCRIPTION,Price) VALUES ('PROD2','AIRBUS A320', 'Engine:Two wing pylon-mounted turbofan,Seating Capacity: 366', 615000);
+INSERT INTO CATALOG (Product_ID,MODEL_, MODEL_DESCRIPTION,Price) VALUES ('PROD3','BOEING 777', 'Engine:GE90,Seating Capacity: 550', 5600000);
+INSERT INTO CATALOG (Product_ID,MODEL_, MODEL_DESCRIPTION,Price) VALUES ('PROD4','AIRBUS A330', 'Engine:CF6,Seating Capacity:440', 450000);
+INSERT INTO CATALOG (Product_ID,MODEL_, MODEL_DESCRIPTION,Price) VALUES ('PROD5','AIRBUS A380', 'Engine:CF6,Seating Capacity:853', 3500000);
 
 --Inserting Data in table Parts_Inventory
-INSERT INTO  PARTS_INVENTORY (Part_ID,Part_Name,Part_Stock) VALUES ('P101','Gil',12);
-INSERT INTO  PARTS_INVENTORY (Part_ID,Part_Name,Part_Stock) VALUES ('P102','Deacon',79);
-INSERT INTO  PARTS_INVENTORY (Part_ID,Part_Name,Part_Stock) VALUES ('P103','Cyrus',43);
-INSERT INTO  PARTS_INVENTORY (Part_ID,Part_Name,Part_Stock) VALUES ('P104','Quyn',81);
-INSERT INTO  PARTS_INVENTORY (Part_ID,Part_Name,Part_Stock) VALUES ('P105','Blair',35);
+INSERT INTO  PARTS_INVENTORY (Part_ID,Part_Name,Part_Stock) VALUES ('P101','Turbine Engine',12);
+INSERT INTO  PARTS_INVENTORY (Part_ID,Part_Name,Part_Stock) VALUES ('P102','Flight Deck',79);
+INSERT INTO  PARTS_INVENTORY (Part_ID,Part_Name,Part_Stock) VALUES ('P103','Winglet',43);
+INSERT INTO  PARTS_INVENTORY (Part_ID,Part_Name,Part_Stock) VALUES ('P104','Air Brakes',81);
+INSERT INTO  PARTS_INVENTORY (Part_ID,Part_Name,Part_Stock) VALUES ('P105','Flaps',35);
 
 -- Inserting Data in table MODEL_DETAILS
-INSERT INTO MODEL_DETAILS (Product_ID,MODEL_DESCRIPTION,Date_Manufactured,MODEL_) VALUES ('PROD1','libero. tesque a, facilisis','02-07-20','G3W 2F3');
-INSERT INTO MODEL_DETAILS (Product_ID,MODEL_DESCRIPTION,Date_Manufactured,MODEL_) VALUES ('PROD2','adipiscingut, molestie in,','12-10-20','K5C 0S7');
-INSERT INTO MODEL_DETAILS (Product_ID,MODEL_DESCRIPTION,Date_Manufactured,MODEL_) VALUES ('PROD3','purus, rci. Ut sagittis','05-07-20','C2U 1D8');
-INSERT INTO MODEL_DETAILS (Product_ID,MODEL_DESCRIPTION,Date_Manufactured,MODEL_) VALUES ('PROD4','sem egeaconvallis in,','05-06-21','G8C 2H5');
-INSERT INTO MODEL_DETAILS (Product_ID,MODEL_DESCRIPTION,Date_Manufactured,MODEL_) VALUES ('PROD5','lobortiser euismod est arcu ac','02-07-20','E8C 5K4');
+INSERT INTO MODEL_DETAILS (Product_ID,MODEL_DESCRIPTION,Date_Manufactured,MODEL_) VALUES ('PROD1','Engine:Four wing-mounted,Seating Capacity: 366','02-JAN-20','BOEING 747');
+INSERT INTO MODEL_DETAILS (Product_ID,MODEL_DESCRIPTION,Date_Manufactured,MODEL_) VALUES ('PROD2','Engine:Two wing pylon-mounted turbofan,Seating Capacity: 366','12-NOV-20','AIRBUS A320');
+INSERT INTO MODEL_DETAILS (Product_ID,MODEL_DESCRIPTION,Date_Manufactured,MODEL_) VALUES ('PROD3','Engine:GE90,Seating Capacity: 550','12-NOV-20','BOEING 777');
+INSERT INTO MODEL_DETAILS (Product_ID,MODEL_DESCRIPTION,Date_Manufactured,MODEL_) VALUES ('PROD4','Engine:CF6,Seating Capacity:440','24-FEB-18','AIRBUS A330');
+INSERT INTO MODEL_DETAILS (Product_ID,MODEL_DESCRIPTION,Date_Manufactured,MODEL_) VALUES ('PROD5','Engine:CF6,Seating Capacity:853','28-DEC-19','AIRBUS A380');
 
 --Inserting Data in table Distributor
-INSERT INTO DISTRIBUTOR (Distributor_ID,Distributor_Name,Address,MODEL_) VALUES ('D101','Congue LLP','Langford','Short');
-INSERT INTO DISTRIBUTOR (Distributor_ID,Distributor_Name,Address,MODEL_) VALUES ('D102','Arcu Curabitur Associates','Lanklaar','Farmer');
-INSERT INTO DISTRIBUTOR (Distributor_ID,Distributor_Name,Address,MODEL_) VALUES ('D103','Ornare Incorporated','San Antonio','Walters');
-INSERT INTO DISTRIBUTOR (Distributor_ID,Distributor_Name,Address,MODEL_) VALUES ('D104','Tellus Lorem Eu Associates','Saint-Leonard','Mcbride');
-INSERT INTO DISTRIBUTOR (Distributor_ID,Distributor_Name,Address,MODEL_) VALUES ('D105','Lectus Justo LLC','Mazatlán','Wallace');
+INSERT INTO DISTRIBUTOR (Distributor_ID,Distributor_Name,Address,MODEL_) VALUES ('D101','Aviall','Richmond','BOEING 747');
+INSERT INTO DISTRIBUTOR (Distributor_ID,Distributor_Name,Address,MODEL_) VALUES ('D102','Aero Precision','Mystic','AIRBUS A320');
+INSERT INTO DISTRIBUTOR (Distributor_ID,Distributor_Name,Address,MODEL_) VALUES ('D103','AB Aviation','San Mateo','BOEING 777');
+INSERT INTO DISTRIBUTOR (Distributor_ID,Distributor_Name,Address,MODEL_) VALUES ('D104','Falcon Crest Aviation','Los Angeles','AIRBUS A330');
+INSERT INTO DISTRIBUTOR (Distributor_ID,Distributor_Name,Address,MODEL_) VALUES ('D105','Omaha Air Service','Burlington','AIRBUS A380');
 
 --Inserting Data in table MODEL_Blueprint
 
@@ -240,82 +258,94 @@ INSERT INTO MODEL_Blueprint (MODEL_,Qty,Part_ID,Blueprint_ID) VALUES ('AIRBUS A3
 INSERT INTO MODEL_Blueprint (MODEL_,Qty,Part_ID,Blueprint_ID) VALUES ('AIRBUS A380','2','P105','B5');
 
 --Inserting Data in table MANUFACTURING
-INSERT INTO MANUFACTURING (Airplane_Number,Date_Manufactured,MODEL_,Status) VALUES ('AIR1','09-07-21','Rashad','Hoyt');
-INSERT INTO MANUFACTURING (Airplane_Number,Date_Manufactured,MODEL_,Status) VALUES ('AIR2','03-10-21','Colton','Maxwell');
-INSERT INTO MANUFACTURING (Airplane_Number,Date_Manufactured,MODEL_,Status) VALUES ('AIR3','03-10-20','Wyatt','Armand');
-INSERT INTO MANUFACTURING (Airplane_Number,Date_Manufactured,MODEL_,Status) VALUES ('AIR4','05-10-20','Ryder','Giacomo');
-INSERT INTO MANUFACTURING (Airplane_Number,Date_Manufactured,MODEL_,Status) VALUES ('AIR5','03-10-21','Kennan','Reed');
+INSERT INTO MANUFACTURING (Airplane_Number,Date_Manufactured,MODEL_,Status) VALUES ('AIR1','09-JUL-19','BOEING 747','IN PROCESS');
+INSERT INTO MANUFACTURING (Airplane_Number,Date_Manufactured,MODEL_,Status) VALUES ('AIR2','21-OCT-18','AIRBUS A320','MANUFACTURED');
+INSERT INTO MANUFACTURING (Airplane_Number,Date_Manufactured,MODEL_,Status) VALUES ('AIR3','03-JAN-20','BOEING 777','TESTING');
+INSERT INTO MANUFACTURING (Airplane_Number,Date_Manufactured,MODEL_,Status) VALUES ('AIR4','05-MAY-18','AIRBUS A330','TESTING');
+INSERT INTO MANUFACTURING (Airplane_Number,Date_Manufactured,MODEL_,Status) VALUES ('AIR5','03-SEP-19','AIRBUS A380','MANUFACTURED');
 
 -- Inserting Data in table Department
-INSERT INTO DEPARTMENT (Department_ID,Department_Name) VALUES ('D101','Nash');
-INSERT INTO DEPARTMENT (Department_ID,Department_Name) VALUES ('D102','Remedios');
-INSERT INTO DEPARTMENT (Department_ID,Department_Name) VALUES ('D103','Amber');
-INSERT INTO DEPARTMENT (Department_ID,Department_Name) VALUES ('D104','Fletcher');
-INSERT INTO DEPARTMENT (Department_ID,Department_Name) VALUES ('D105','Quinn');
+INSERT INTO DEPARTMENT (Department_ID,Department_Name) VALUES ('D101','HR');
+INSERT INTO DEPARTMENT (Department_ID,Department_Name) VALUES ('D102','Administration');
+INSERT INTO DEPARTMENT (Department_ID,Department_Name) VALUES ('D103','Billing');
+INSERT INTO DEPARTMENT (Department_ID,Department_Name) VALUES ('D104','Manufacturing');
+INSERT INTO DEPARTMENT (Department_ID,Department_Name) VALUES ('D105','Delivery');
 
 --Inserting Data in table Supplier
-INSERT INTO SUPPLIER (Supplier_ID,Supplier_Name,Supplier_Address,Contact_Info,Part_Name,Part_ID) VALUES ('S101','Deviprasad','Bhandup','19317409513','Colby','P101');
-INSERT INTO SUPPLIER (Supplier_ID,Supplier_Name,Supplier_Address,Contact_Info,Part_Name,Part_ID) VALUES ('S102','Shyam','Bhubaneswar','16051239617','Inez','P102');
-INSERT INTO SUPPLIER (Supplier_ID,Supplier_Name,Supplier_Address,Contact_Info,Part_Name,Part_ID) VALUES ('S103','Raju','Ulhasnagar','10004992','jAADU','P103');
-INSERT INTO SUPPLIER (Supplier_ID,Supplier_Name,Supplier_Address,Contact_Info,Part_Name,Part_ID) VALUES ('S104','Hoxuan Xu','Nashik','12102720115','Armand','P104');
-INSERT INTO SUPPLIER (Supplier_ID,Supplier_Name,Supplier_Address,Contact_Info,Part_Name,Part_ID) VALUES ('S105','Palash','Boston','17495443883','Jemima','P105');
-
+INSERT INTO SUPPLIER (Supplier_ID,Supplier_Name,Supplier_Address,Contact_Info,Part_Name,Part_ID) VALUES ('S101','David','Nantucket','19317409513','Turbine Engine','P101');
+INSERT INTO SUPPLIER (Supplier_ID,Supplier_Name,Supplier_Address,Contact_Info,Part_Name,Part_ID) VALUES ('S102','Mark','Tustin','16051239617','Flight Deck','P102');
+INSERT INTO SUPPLIER (Supplier_ID,Supplier_Name,Supplier_Address,Contact_Info,Part_Name,Part_ID) VALUES ('S103','Arrow','Hartford','10004992','Winglet','P103');
+INSERT INTO SUPPLIER (Supplier_ID,Supplier_Name,Supplier_Address,Contact_Info,Part_Name,Part_ID) VALUES ('S104','Hoxuan Xu','Anaheim','12102720115','Air Brakes','P104');
+INSERT INTO SUPPLIER (Supplier_ID,Supplier_Name,Supplier_Address,Contact_Info,Part_Name,Part_ID) VALUES ('S105','Zhenghui','Boston','17495443883','Flaps','P105');
 
 
 --Inserting Data in table Supplier_Order
-INSERT INTO Supplier_Order (Order_ID,Part_ID,Part_Qty,Order_Date,Supplier_ID) VALUES ('O101','P101','3','04-01-20','S101');
-INSERT INTO Supplier_Order (Order_ID,Part_ID,Part_Qty,Order_Date,Supplier_ID) VALUES ('O102','P102','3','05-10-20','S102');
-INSERT INTO Supplier_Order (Order_ID,Part_ID,Part_Qty,Order_Date,Supplier_ID) VALUES ('O103','P103','3','07-10-20','S103');
-INSERT INTO Supplier_Order (Order_ID,Part_ID,Part_Qty,Order_Date,Supplier_ID) VALUES ('O104','P104','3','05-10-20','S104');
-INSERT INTO Supplier_Order (Order_ID,Part_ID,Part_Qty,Order_Date,Supplier_ID) VALUES ('O105','P105','3','05-10-21','S105');
+INSERT INTO Supplier_Order (Order_ID,Part_ID,Part_Qty,Order_Date,Supplier_ID) VALUES ('O101','P101','3','04-JAN-20','S101');
+INSERT INTO Supplier_Order (Order_ID,Part_ID,Part_Qty,Order_Date,Supplier_ID) VALUES ('O102','P102','3','05-OCT-20','S102');
+INSERT INTO Supplier_Order (Order_ID,Part_ID,Part_Qty,Order_Date,Supplier_ID) VALUES ('O103','P103','3','07-OCT-20','S103');
+INSERT INTO Supplier_Order (Order_ID,Part_ID,Part_Qty,Order_Date,Supplier_ID) VALUES ('O104','P104','3','05-NOV-20','S104');
+INSERT INTO Supplier_Order (Order_ID,Part_ID,Part_Qty,Order_Date,Supplier_ID) VALUES ('O105','P105','3','05-APR-20','S105');
 
 --Inserting Data in table INVOICE
-INSERT INTO INVOICE (Invoice_ID,Part_Qty,Invoice_Date,Shipping_Number,Order_ID_Status,Part_ID,Supplier_ID,Order_ID) VALUES ('I101',29,'10-03-21',2180,'Harlan','P101','S101','O101');
-INSERT INTO INVOICE (Invoice_ID,Part_Qty,Invoice_Date,Shipping_Number,Order_ID_Status,Part_ID,Supplier_ID,Order_ID) VALUES ('I102',36,'10-10-20',3132,'Abel','P102','S102','O102');
-INSERT INTO INVOICE (Invoice_ID,Part_Qty,Invoice_Date,Shipping_Number,Order_ID_Status,Part_ID,Supplier_ID,Order_ID) VALUES ('I103',23,'09-09-21',8022,'Sylvester','P103','S103','O103');
-INSERT INTO INVOICE (Invoice_ID,Part_Qty,Invoice_Date,Shipping_Number,Order_ID_Status,Part_ID,Supplier_ID,Order_ID) VALUES ('I104',35,'09-09-21',5790,'Ishmael','P104','S104','O104');
-INSERT INTO INVOICE (Invoice_ID,Part_Qty,Invoice_Date,Shipping_Number,Order_ID_Status,Part_ID,Supplier_ID,Order_ID) VALUES ('I105',10,'10-10-21',2742,'Robert','P105','S105','O105');
+INSERT INTO INVOICE (Invoice_ID,Part_Qty,Invoice_Date,Shipping_Number,Order_ID_Status,Part_ID,Supplier_ID,Order_ID) VALUES ('I101',3,'10-JAN-20',2180,'Shipped','P101','S101','O101');
+INSERT INTO INVOICE (Invoice_ID,Part_Qty,Invoice_Date,Shipping_Number,Order_ID_Status,Part_ID,Supplier_ID,Order_ID) VALUES ('I102',3,'10-OCT-20',3132,'Recieved','P102','S102','O102');
+INSERT INTO INVOICE (Invoice_ID,Part_Qty,Invoice_Date,Shipping_Number,Order_ID_Status,Part_ID,Supplier_ID,Order_ID) VALUES ('I103',3,'09-OCT-20',8022,'Recieved','P103','S103','O103');
+INSERT INTO INVOICE (Invoice_ID,Part_Qty,Invoice_Date,Shipping_Number,Order_ID_Status,Part_ID,Supplier_ID,Order_ID) VALUES ('I104',3,'09-NOV-20',5790,'Shipped','P104','S104','O104');
+INSERT INTO INVOICE (Invoice_ID,Part_Qty,Invoice_Date,Shipping_Number,Order_ID_Status,Part_ID,Supplier_ID,Order_ID) VALUES ('I105',3,'10-APR-20',2742,'Recieved','P105','S105','O105');
 
 --Inserting Data in table QUALITY
-INSERT INTO QUALITY (Inspection_ID,Inspectiondate,Status,Airplane_Number,DEPARTMENT_ID) VALUES ('IN101','05-05-20','Cameron','AIR1','D101');
-INSERT INTO QUALITY (Inspection_ID,Inspectiondate,Status,Airplane_Number,DEPARTMENT_ID) VALUES ('IN102','05-03-21','Fitzgerald','AIR2','D102');
-INSERT INTO QUALITY (Inspection_ID,Inspectiondate,Status,Airplane_Number,DEPARTMENT_ID) VALUES ('IN103','11-06-21','Grant','AIR3','D103');
-INSERT INTO QUALITY (Inspection_ID,Inspectiondate,Status,Airplane_Number,DEPARTMENT_ID) VALUES ('IN104','08-07-21','Randall','AIR4','D104');
-INSERT INTO QUALITY (Inspection_ID,Inspectiondate,Status,Airplane_Number,DEPARTMENT_ID) VALUES ('IN105','08-05-21','Jin','AIR5','D105');
+INSERT INTO QUALITY (Inspection_ID,Inspectiondate,Status,Airplane_Number,DEPARTMENT_ID) VALUES ('IN101','05-MAY-20','Checking','AIR1','D101');
+INSERT INTO QUALITY (Inspection_ID,Inspectiondate,Status,Airplane_Number,DEPARTMENT_ID) VALUES ('IN102','05-MAR-20','Checked','AIR2','D102');
+INSERT INTO QUALITY (Inspection_ID,Inspectiondate,Status,Airplane_Number,DEPARTMENT_ID) VALUES ('IN103','11-JUN-20','Checking','AIR3','D103');
+INSERT INTO QUALITY (Inspection_ID,Inspectiondate,Status,Airplane_Number,DEPARTMENT_ID) VALUES ('IN104','08-JUL-20','Checked','AIR4','D104');
+INSERT INTO QUALITY (Inspection_ID,Inspectiondate,Status,Airplane_Number,DEPARTMENT_ID) VALUES ('IN105','08-MAY-20','Checking','AIR5','D105');
 
 --Inserting Data in table WAREHOUSE
-INSERT INTO WAREHOUSE (Item_no,Product_ID,MODEL_,Price,StockOnHand,Distributor_ID) VALUES ('IT1','PROD1','Rogan',2702114,5,'D101');
-INSERT INTO WAREHOUSE (Item_no,Product_ID,MODEL_,Price,StockOnHand,Distributor_ID) VALUES ('IT2','PROD2','Jakeem',3929447,6,'D102');
-INSERT INTO WAREHOUSE (Item_no,Product_ID,MODEL_,Price,StockOnHand,Distributor_ID) VALUES ('IT3','PROD3','Hayden',8355240,2,'D103');
-INSERT INTO WAREHOUSE (Item_no,Product_ID,MODEL_,Price,StockOnHand,Distributor_ID) VALUES ('IT4','PROD4','Gabriel',9093692,2,'D104');
-INSERT INTO WAREHOUSE (Item_no,Product_ID,MODEL_,Price,StockOnHand,Distributor_ID) VALUES ('IT5','PROD5','Wyatt',2029656,18,'D105');
+INSERT INTO WAREHOUSE (Item_no,Product_ID,MODEL_,Price,StockOnHand,Distributor_ID) VALUES ('IT1','PROD1','BOEING 747',9000000,5,'D101');
+INSERT INTO WAREHOUSE (Item_no,Product_ID,MODEL_,Price,StockOnHand,Distributor_ID) VALUES ('IT2','PROD2','AIRBUS A320',6150000,6,'D102');
+INSERT INTO WAREHOUSE (Item_no,Product_ID,MODEL_,Price,StockOnHand,Distributor_ID) VALUES ('IT3','PROD3','BOEING 777',5600000,2,'D103');
+INSERT INTO WAREHOUSE (Item_no,Product_ID,MODEL_,Price,StockOnHand,Distributor_ID) VALUES ('IT4','PROD4','AIRBUS A330',450000,2,'D104');
+INSERT INTO WAREHOUSE (Item_no,Product_ID,MODEL_,Price,StockOnHand,Distributor_ID) VALUES ('IT5','PROD5','AIRBUS A380',3500000,18,'D105');
 
 --Inserting Data in table CUSTOMER_ORDER
-INSERT INTO CUSTOMER_ORDER (Customer_ID,MODEL_,Amount,DateTime,Quantity,CustOrder_ID) VALUES ('C10001','Octavius',74959,'05-08-20',22,'CUST1');
-INSERT INTO CUSTOMER_ORDER (Customer_ID,MODEL_,Amount,DateTime,Quantity,CustOrder_ID) VALUES ('C10002','Kelly',59666,'03-08-21',10,'CUST2');
-INSERT INTO CUSTOMER_ORDER (Customer_ID,MODEL_,Amount,DateTime,Quantity,CustOrder_ID) VALUES ('C10003','Eaton',88342,'08-08-20',15,'CUST3');
-INSERT INTO CUSTOMER_ORDER (Customer_ID,MODEL_,Amount,DateTime,Quantity,CustOrder_ID) VALUES ('C10004','August',63934,'02-08-20',23,'CUST4');
-INSERT INTO CUSTOMER_ORDER (Customer_ID,MODEL_,Amount,DateTime,Quantity,CustOrder_ID) VALUES ('C10005','Victor',61403,'12-08-19',15,'CUST5');
+INSERT INTO CUSTOMER_ORDER (Customer_ID,MODEL_,Amount,DateTime,Quantity,CustOrder_ID) VALUES ('C10001','BOEING 747',9000000,'05-JUN-20',22,'CUST1');
+INSERT INTO CUSTOMER_ORDER (Customer_ID,MODEL_,Amount,DateTime,Quantity,CustOrder_ID) VALUES ('C10002','AIRBUS A320',6150000,'03-MAY-21',10,'CUST2');
+INSERT INTO CUSTOMER_ORDER (Customer_ID,MODEL_,Amount,DateTime,Quantity,CustOrder_ID) VALUES ('C10003','BOEING 777',5600000,'08-JAN-20',15,'CUST3');
+INSERT INTO CUSTOMER_ORDER (Customer_ID,MODEL_,Amount,DateTime,Quantity,CustOrder_ID) VALUES ('C10004','AIRBUS A330',450000,'02-NOV-20',23,'CUST4');
+INSERT INTO CUSTOMER_ORDER (Customer_ID,MODEL_,Amount,DateTime,Quantity,CustOrder_ID) VALUES ('C10005','AIRBUS A380',3500000,'12-OCT-19',15,'CUST5');
 
 --Inserting Data in table Repair_Product
-INSERT INTO REPAIR_PRODUCT (Repair_ID,Defect_Description,Airplane_Number,Inspection_ID) VALUES ('R101','luctus aliquet odio.','AIR1','IN101');
-INSERT INTO REPAIR_PRODUCT (Repair_ID,Defect_Description,Airplane_Number,Inspection_ID) VALUES ('R102','nec tempus mauris erat eget','AIR2','IN102');
-INSERT INTO REPAIR_PRODUCT (Repair_ID,Defect_Description,Airplane_Number,Inspection_ID) VALUES ('R103','vitae risus. ia','AIR3','IN103');
-INSERT INTO REPAIR_PRODUCT (Repair_ID,Defect_Description,Airplane_Number,Inspection_ID) VALUES ('R104','consectetue Curabitur','AIR4','IN104');
-INSERT INTO REPAIR_PRODUCT (Repair_ID,Defect_Description,Airplane_Number,Inspection_ID) VALUES ('R105','tincidunt. Donec','AIR5','IN105');
+INSERT INTO REPAIR_PRODUCT (Repair_ID,Defect_Description,Airplane_Number,Inspection_ID) VALUES ('R101','Fuel leak','AIR1','IN101');
+INSERT INTO REPAIR_PRODUCT (Repair_ID,Defect_Description,Airplane_Number,Inspection_ID) VALUES ('R102','Electrical failures ','AIR2','IN102');
+INSERT INTO REPAIR_PRODUCT (Repair_ID,Defect_Description,Airplane_Number,Inspection_ID) VALUES ('R103','Failure of de-ice equipment','AIR3','IN103');
+INSERT INTO REPAIR_PRODUCT (Repair_ID,Defect_Description,Airplane_Number,Inspection_ID) VALUES ('R104','Hydraulic systems failure ','AIR4','IN104');
+INSERT INTO REPAIR_PRODUCT (Repair_ID,Defect_Description,Airplane_Number,Inspection_ID) VALUES ('R105','Fuel leak','AIR5','IN105');
 
 
 -- Inserting Data in table Customer_Bill
-INSERT INTO CUSTOMER_BILL (Bill_ID,MODEL_,Amount,Delivery_Status,Product_ID,Customer_ID,Delivery_Date) VALUES ('B101','W4L 8Y9',838,'Charlotte','PROD1','C10001','10-08-20');
-INSERT INTO CUSTOMER_BILL (Bill_ID,MODEL_,Amount,Delivery_Status,Product_ID,Customer_ID,Delivery_Date) VALUES ('B102','I5O 4P3',764,'Oscar','PROD2','C10002','05-10-20');
-INSERT INTO CUSTOMER_BILL (Bill_ID,MODEL_,Amount,Delivery_Status,Product_ID,Customer_ID,Delivery_Date) VALUES ('B103','G4A 5W0',895,'Xerxes','PROD3','C10003','10-09-20');
-INSERT INTO CUSTOMER_BILL (Bill_ID,MODEL_,Amount,Delivery_Status,Product_ID,Customer_ID,Delivery_Date) VALUES ('B104','P1E 3L2',778,'Danielle','PROD4','C10004','11-08-20');
-INSERT INTO CUSTOMER_BILL (Bill_ID,MODEL_,Amount,Delivery_Status,Product_ID,Customer_ID,Delivery_Date) VALUES ('B105','S9V 5Y3',787,'Garrison','PROD5','C10005','06-04-20');
+INSERT INTO CUSTOMER_BILL (Bill_ID,MODEL_,Amount,Delivery_Status,Product_ID,Customer_ID,Delivery_Date) VALUES ('B101','BOEING 747',9000000,'Delivered','PROD1','C10001','24-NOV-20');
+INSERT INTO CUSTOMER_BILL (Bill_ID,MODEL_,Amount,Delivery_Status,Product_ID,Customer_ID,Delivery_Date) VALUES ('B102','AIRBUS A320',615000,'In Transit','PROD2','C10002','23-NOV-20');
+INSERT INTO CUSTOMER_BILL (Bill_ID,MODEL_,Amount,Delivery_Status,Product_ID,Customer_ID,Delivery_Date) VALUES ('B103','BOEING 777',5600000,'In Transit','PROD3','C10003','18-NOV-20');
+INSERT INTO CUSTOMER_BILL (Bill_ID,MODEL_,Amount,Delivery_Status,Product_ID,Customer_ID,Delivery_Date) VALUES ('B104','AIRBUS A330',450000,'In Transit','PROD4','C10004','19-NOV-20');
+INSERT INTO CUSTOMER_BILL (Bill_ID,MODEL_,Amount,Delivery_Status,Product_ID,Customer_ID,Delivery_Date) VALUES ('B105','AIRBUS A380',3500000,'Delivered','PROD5','C10005','21-NOV-20');
 
 -- Inserting Data in table Employee
-INSERT INTO EMPLOYEES (Employee_ID,Department_ID,First_Name,Last_Name,Address,SSN,DOB) VALUES ('E101','D101','Eaton','Gomez','Cochrane',628,'10-01-68');
-INSERT INTO EMPLOYEES (Employee_ID,Department_ID,First_Name,Last_Name,Address,SSN,DOB) VALUES ('E102','D102','Mary','Davis','Ostra Vetere',763,'02-10-67');
-INSERT INTO EMPLOYEES (Employee_ID,Department_ID,First_Name,Last_Name,Address,SSN,DOB) VALUES ('E103','D103','Alisa','Olsen','Harnai',538,'04-05-00');
-INSERT INTO EMPLOYEES (Employee_ID,Department_ID,First_Name,Last_Name,Address,SSN,DOB) VALUES ('E104','D104','Flavia','Mcknight','Landau',552,'12-10-62');
-INSERT INTO EMPLOYEES (Employee_ID,Department_ID,First_Name,Last_Name,Address,SSN,DOB) VALUES ('E105','D105','Rudyard','Hyde','Quenast',535,'03-12-89');
+INSERT INTO EMPLOYEES (Employee_ID,Department_ID,First_Name,Last_Name,Address,SSN,DOB) VALUES ('E101','D101','Eaton','Gomez','New Jersey',628888999,'10-JAN-68');
+INSERT INTO EMPLOYEES (Employee_ID,Department_ID,First_Name,Last_Name,Address,SSN,DOB) VALUES ('E102','D102','Mary','Davis','Lexington',763666555,'02-FEB-67');
+INSERT INTO EMPLOYEES (Employee_ID,Department_ID,First_Name,Last_Name,Address,SSN,DOB) VALUES ('E103','D103','Alisa','Olsen','Burlington',538444333,'04-MAR-00');
+INSERT INTO EMPLOYEES (Employee_ID,Department_ID,First_Name,Last_Name,Address,SSN,DOB) VALUES ('E104','D104','Flavia','Mcknight','Mystic',552333222,'12-APR-62');
+INSERT INTO EMPLOYEES (Employee_ID,Department_ID,First_Name,Last_Name,Address,SSN,DOB) VALUES ('E105','D105','Rudyard','Hyde','Lowell',535212323,'03-MAY-89');
 
+-- Inserting Data in table Role
+INSERT INTO ROLE_ (Role_ID,Role_Name) VALUES (1,'Admin');
+INSERT INTO ROLE_ (Role_ID,Role_Name) VALUES (2,'DAdmin');
+INSERT INTO ROLE_ (Role_ID,Role_Name) VALUES (3,'SAdmin');
+INSERT INTO ROLE_ (Role_ID,Role_Name) VALUES (4,'MAdmin');
+INSERT INTO ROLE_ (Role_ID,Role_Name) VALUES (5,'PAdmin');
+
+-- Inserting Data in table  Administrator_Info
+INSERT INTO ADMINISTRATOR_INFO (Admin_ID,Role_ID,Admin_Name,Email_ID,Password) VALUES ('ADMIN101',1,'Yash','yash@gmail.com','yash');
+INSERT INTO ADMINISTRATOR_INFO (Admin_ID,Role_ID,Admin_Name,Email_ID,Password) VALUES ('ADMIN102',2,'Girija','girija@gmail.com','girija');
+INSERT INTO ADMINISTRATOR_INFO (Admin_ID,Role_ID,Admin_Name,Email_ID,Password) VALUES ('ADMIN103',3,'Dev','dev@gmail.com','dev');
+INSERT INTO ADMINISTRATOR_INFO (Admin_ID,Role_ID,Admin_Name,Email_ID,Password) VALUES ('ADMIN104',4,'Manisha','manisha@gmail.com','man');
+INSERT INTO ADMINISTRATOR_INFO (Admin_ID,Role_ID,Admin_Name,Email_ID,Password) VALUES ('ADMIN105',5,'Bobby','bobby@gmail.com','bob');
