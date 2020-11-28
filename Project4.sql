@@ -31,7 +31,7 @@ CREATE TABLE CUSTOMER (
 );
 --Creating Table Catalog
 CREATE TABLE CATALOG (
-  Product_ID VARCHAR(10) NOT NULL PRIMARY KEY,
+  Product_ID VARCHAR(10),
   MODEL_ VARCHAR (20),
   MODEL_DESCRIPTION VARCHAR(80),
   Price FLOAT
@@ -213,13 +213,85 @@ CREATE TABLE CUSTOMER_ORDER (
   FOREIGN KEY (Role_ID) references ROLE_(Role_ID)
 );
 
+-- Constraints
+ALTER TABLE Customer
+ADD CONSTRAINT cus_fn_Only_Alphabets 
+       CHECK (regexp_like(first_name,'^[[:alpha:]]+$')) ;
+       
+ALTER TABLE Customer
+ADD CONSTRAINT cus_ls_Only_Alphabets 
+       CHECK (regexp_like(last_name,'^[[:alpha:]]+$')) ;
+       
+ALTER TABLE Employees
+ADD CONSTRAINT emp_fn_Only_Alphabets 
+       CHECK (regexp_like(first_name,'^[[:alpha:]]+$')) ;
+       
+ALTER TABLE Employees
+ADD CONSTRAINT emp_ln_Only_Alphabets 
+       CHECK (regexp_like(last_name,'^[[:alpha:]]+$')) ;
+
+alter table catalog
+add constraint ct_price_nonneg
+    check (price>0) ; 
+
+alter table catalog
+modify (price not null); 
+
+alter table warehouse
+add constraint wr_price_nonneg
+    check (price>0) ; 
+
+alter table warehouse
+modify (price not null); 
+
+alter table customer_order
+add constraint co_amt_nonneg
+    check (amount>0) ; 
+
+alter table customer_order
+modify ( amount not null); 
+
+alter table customer_bill
+add constraint cb_amt_nonneg
+    check (amount>0) ; 
+
+alter table customer_bill
+modify ( amount not null); 
+
+alter table model_blueprint
+add constraint mb_qty_nonneg
+    check ( qty >=0) ; 
+
+alter table model_blueprint
+modify (qty not null); 
+
+alter table parts_inventory
+add constraint pi_ps_nonneg
+    check ( part_stock >=0) ; 
+
+alter table parts_inventory
+modify (part_stock not null);
+
+alter table customer_order
+add constraint co_qty_nonneg
+    check (quantity>=0) ; 
+
+alter table customer_order
+modify ( quantity not null); 
+
+alter table warehouse
+add constraint wr_soh_nonneg
+    check (stockonhand>=0) ; 
+
+alter table warehouse
+modify (stockonhand not null);
 
 --Inserting Data in table Customer
-INSERT INTO CUSTOMER (Customer_ID,First_Name,Last_Name,Address,Phone) VALUES ('C10001','Laura','Meyer','600 Street Building A NY, USA',1-776-423-8576);
-INSERT INTO CUSTOMER (Customer_ID,First_Name,Last_Name,Address,Phone) VALUES ('C10002','Steve','Aoki','Magna Street 12 CA, USA',1-135-317-3205);
-INSERT INTO CUSTOMER (Customer_ID,First_Name,Last_Name,Address,Phone) VALUES ('C10003','Ram','Hariharan','79 Street OH, USA',1-879-150-3664);
-INSERT INTO CUSTOMER (Customer_ID,First_Name,Last_Name,Address,Phone) VALUES ('C10004','Jacky','Davis','Culver Drive 21 AZ, USA',1-403-181-0725);
-INSERT INTO CUSTOMER (Customer_ID,First_Name,Last_Name,Address,Phone) VALUES ('C10005','Drew','Barrymore','Park Ave CT21 CT, USA',1-205-199-2765);
+INSERT INTO CUSTOMER (Customer_ID,First_Name,Last_Name,Address,Phone) VALUES ('C10001','Laura','Meyer','600 Street Building A NY, USA',17764238576);
+INSERT INTO CUSTOMER (Customer_ID,First_Name,Last_Name,Address,Phone) VALUES ('C10002','Steve','Aoki','Magna Street 12 CA, USA',11353173205);
+INSERT INTO CUSTOMER (Customer_ID,First_Name,Last_Name,Address,Phone) VALUES ('C10003','Ram','Hariharan','79 Street OH, USA',18791503664);
+INSERT INTO CUSTOMER (Customer_ID,First_Name,Last_Name,Address,Phone) VALUES ('C10004','Jacky','Davis','Culver Drive 21 AZ, USA',14031810725);
+INSERT INTO CUSTOMER (Customer_ID,First_Name,Last_Name,Address,Phone) VALUES ('C10005','Drew','Barrymore','Park Ave CT21 CT, USA',12051992765);
 
 --Inserting Data in table Catalog
 INSERT INTO CATALOG (Product_ID,MODEL_, MODEL_DESCRIPTION,Price) VALUES ('PROD1','BOEING 747', 'Engine:Four wing-mounted,Seating Capacity: 366', 9000000);
